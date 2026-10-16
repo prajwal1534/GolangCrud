@@ -1,0 +1,13 @@
+# Compiled binaries
+*.exe
+*.out
+
+# Secrets and local config
+.env
+.env.*
+
+# Editor and OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,176 @@
+{
+  "info": {
+    "_postman_id": "6237d10f-c45d-46c9-bbde-9e2eface8f79",
+    "name": "Doctorfirst patient API",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "59004812",
+    "_collection_link": "https://go.postman.co/collection/59004812-6237d10f-c45d-46c9-bbde-9e2eface8f79?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "List patient",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {\n    pm.response.to.have.status(200);\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "postman-echo.com/get",
+          "host": [
+            "postman-echo",
+            "com"
+          ],
+          "path": [
+            "get"
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "Create patient",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Successful POST request\", function () {\n    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\n});\nconst id = pm.response.json().id;\n\nlet ids = JSON.parse(pm.collectionVariables.get(\"patientIds\") || \"[]\");\nids.push(id);\n\npm.collectionVariables.set(\"patientIds\", JSON.stringify(ids));\npm.collectionVariables.set(\"patientId\", id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"raj\",\n  \"age\": 67,\n  \"phone\": \"9876543210\",\n  \"email\": \"ramesh@example.com\",\n  \"gender\": \"male\"\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseurl}}/patients",
+          "host": [
+            "{{baseurl}}"
+          ],
+          "path": [
+            "patients"
+          ]
+        },
+        "description": "This is a POST request, submitting data to an API via the request body. This request submits JSON data, and the data is reflected in the response.\n\nA successful POST request typically returns a `200 OK` or `201 Created` response code."
+      },
+      "response": []
+    },
+    {
+      "name": "Health check",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Find by phone",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get patient",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Update patient",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n  \"phone\": \"9000000000\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": ""
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Delete patient",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const deleted = pm.collectionVariables.get(\"patientId\");\r\n\r\nlet ids = JSON.parse(pm.collectionVariables.get(\"patientIds\") || \"[]\");\r\nids = ids.filter(x => x !== deleted);\r\n\r\npm.collectionVariables.set(\"patientIds\", JSON.stringify(ids));\r\npm.collectionVariables.set(\"patientId\", ids.length > 0 ? ids[ids.length - 1] : \"\");"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "{{baseurl}}/patients/{{patientId}}",
+          "host": [
+            "{{baseurl}}"
+          ],
+          "path": [
+            "patients",
+            "{{patientId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseurl",
+      "value": ""
+    },
+    {
+      "key": "patientId",
+      "value": ""
+    },
+    {
+      "key": "patientIds",
+      "value": ""
+    }
+  ]
+}
