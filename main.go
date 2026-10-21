@@ -29,6 +29,7 @@ func main() {
 	log.Printf("DB Connected Successfully")
 
 	router := gin.Default()
+	router.Use(corsMiddleware())
 
 	db := client.Database("doctorfirst")
 	patientHandler := NewPatientHandler(db.Collection("patients"))
@@ -39,7 +40,7 @@ func main() {
 	router.PATCH("/patients/:id", patientHandler.Update)
 	router.DELETE("/patients/:id", patientHandler.Delete)
 	router.GET("/health", healthHandler.Check)
-
+	router.GET("/stats/count", patientHandler.Count)
 	log.Fatal(router.Run(":" + port))
 
 }
